@@ -9,18 +9,23 @@ using namespace cv;
 int main(int argc, char** argv)
 {
 	Mat disp;
+	Mat temp;
 	
     VideoCapture cap;
     // open the default camera, use something different from 0 otherwise;
     // Check VideoCapture documentation.
     Mat frame;
+    Size size(512,1024);
+    
     if(!cap.open(0))
         return 0;
     for(;;)
     {
           cap >> frame;
           if( frame.empty() ) break; // end of video stream
-          cvtColor(frame, disp, CV_BGR2GRAY);
+          cvtColor(frame, temp, CV_BGR2GRAY);
+          
+		resize(temp, disp, size, CV_INTER_AREA);
 	
 		for (int offset=disp.rows*disp.cols; offset>-1; offset--){
 			disp.data[offset]= binaryToGray(disp.data[offset]);
