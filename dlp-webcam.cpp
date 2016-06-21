@@ -13,10 +13,12 @@ int main(int argc, char** argv)
 	Mat temp;
 	
     VideoCapture cap;
+    VideoWriter video("out.avi",CV_FOURCC('X','V','I','D'),30, Size(640,480),false);
+
     // open the default camera, use something different from 0 otherwise;
     // Check VideoCapture documentation.
     Mat frame;
-    Size size(512,512);
+    Size size(640,960);
     
     if(!cap.open(0))
         return 0;
@@ -25,7 +27,8 @@ int main(int argc, char** argv)
           cap >> frame;
           if( frame.empty() ) break; // end of video stream
           cvtColor(frame, temp, CV_BGR2GRAY);
-        
+		video.write(temp);
+			
 		resize(temp, disp, size, CV_INTER_AREA); // resize
 	
 	for (int offset=disp.rows*disp.cols; offset>-1; offset--){
